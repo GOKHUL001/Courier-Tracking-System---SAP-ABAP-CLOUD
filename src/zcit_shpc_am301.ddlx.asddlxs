@@ -1,0 +1,90 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo: {
+    typeName: 'Shipment',
+    typeNamePlural: 'Shipments',
+    title: { type: #STANDARD, label: 'Shipment', value: 'ShipmentId' }
+  }
+}
+
+annotate entity ZCIT_SHPC_AM301 with
+{
+  @UI.facet: [
+    { id: 'ShipHeader', purpose: #STANDARD, type: #IDENTIFICATION_REFERENCE,
+      label: 'Shipment Details', position: 10 },
+    { id: 'TrackLog',  purpose: #STANDARD, type: #LINEITEM_REFERENCE,
+      label: 'Tracking Log',     position: 20,
+      targetElement: '_trackinglog' }
+  ]
+
+  @UI: {
+  lineItem: [
+    { position: 10, label: 'Shipment ID' }
+  ],
+  identification: [
+    { position: 10, label: 'Shipment ID' },
+    { type: #FOR_ACTION, dataAction: 'mark_in_transit',
+      label: 'Mark In-Transit', position: 10 },
+    { type: #FOR_ACTION, dataAction: 'mark_delivered',
+      label: 'Mark Delivered',  position: 20 },
+    { type: #FOR_ACTION, dataAction: 'cancel_shipment',
+      label: 'Cancel Shipment', position: 30 }
+  ],
+  selectionField: [{ position: 10 }]
+}
+ShipmentId;
+
+  @UI: { lineItem: [{ position: 20, label: 'Sender' }],
+         identification: [{ position: 20, label: 'Sender' }] }
+  SenderName;
+
+  @UI: { lineItem: [{ position: 30, label: 'Receiver' }],
+         identification: [{ position: 30, label: 'Receiver' }] }
+  ReceiverName;
+
+  @UI: { lineItem: [{ position: 40, label: 'Origin' }],
+         identification: [{ position: 40, label: 'Origin' }],
+         selectionField: [{ position: 40 }] }
+  Origin;
+
+  @UI: { lineItem: [{ position: 50, label: 'Destination' }],
+         identification: [{ position: 50, label: 'Destination' }],
+         selectionField: [{ position: 50 }] }
+  Destination;
+
+  @UI: { lineItem: [{ position: 60, label: 'Booking Date' }],
+         identification: [{ position: 60, label: 'Booking Date' }] }
+  BookingDate;
+
+  @UI: { lineItem: [{ position: 70, label: 'Expected Delivery' }],
+         identification: [{ position: 70, label: 'Expected Delivery' }] }
+  ExpectedDelivery;
+
+  @UI: { lineItem: [{ position: 80, label: 'Current Location' }],
+         identification: [{ position: 80, label: 'Current Location' }] }
+  CurrentLocation;
+
+  @UI: {
+    lineItem: [{ position: 90, label: 'Status',
+      criticality: 'StatusCriticality',
+      criticalityRepresentation: #WITH_ICON }],
+    identification: [{ position: 90, label: 'Status' }],
+    selectionField: [{ position: 90 }]
+  }
+  Status;
+
+  @UI: { lineItem: [{ position: 100, label: 'Progress %',
+           type: #AS_DATAPOINT }],
+         dataPoint: { visualization: #PROGRESS, targetValue: 100 } }
+  ProgressPct;
+
+  @UI: { lineItem: [{ position: 110, label: 'Delayed?' }],
+         identification: [{ position: 110, label: 'Delayed?' }] }
+  DelayFlag;
+
+  @UI.hidden: true StatusCriticality;
+  @UI.hidden: true LocalCreatedBy;
+  @UI.hidden: true LocalCreatedAt;
+  @UI.hidden: true LocalLastChangedBy;
+  @UI.hidden: true LocalLastChangedAt;
+}

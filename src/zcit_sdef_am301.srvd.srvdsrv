@@ -1,0 +1,5 @@
+@EndUserText.label: 'Courier Tracking Service Definition'
+define service ZCIT_SDEF_AM301 {
+  expose ZCIT_SHPC_AM301;
+  expose ZCIT_TLGC_AM301;
+}

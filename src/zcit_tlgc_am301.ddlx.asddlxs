@@ -1,0 +1,44 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo: {
+    typeName: 'Tracking Event',
+    typeNamePlural: 'Tracking Events',
+    title: { type: #STANDARD, label: 'Log', value: 'LogSequence' }
+  }
+}
+annotate entity ZCIT_TLGC_AM301 with
+{
+  @UI.facet: [
+    { id: 'LogDetail', purpose: #STANDARD, type: #IDENTIFICATION_REFERENCE,
+      label: 'Log Details', position: 10 }
+  ]
+ 
+  @UI: { lineItem: [{position:10,label:'Shipment ID'}],
+         identification: [{position:10,label:'Shipment ID'}] }
+  ShipmentId;
+ 
+  @UI: { lineItem: [{position:20,label:'Seq #'}],
+         identification: [{position:20,label:'Seq #'}] }
+  LogSequence;
+ 
+  @UI: { lineItem: [{position:30,label:'Timestamp'}],
+         identification: [{position:30,label:'Timestamp'}] }
+  LogTimestamp;
+ 
+  @UI: { lineItem: [{position:40,label:'Location'}],
+         identification: [{position:40,label:'Location'}] }
+  LogLocation;
+ 
+  @UI: { lineItem: [{position:50,label:'Status Update'}],
+         identification: [{position:50,label:'Status Update'}] }
+  StatusUpdate;
+ 
+  @UI: { lineItem: [{position:60,label:'Remarks'}],
+         identification: [{position:60,label:'Remarks'}] }
+  Remarks;
+ 
+  @UI.hidden: true  LocalCreatedBy;
+  @UI.hidden: true  LocalCreatedAt;
+  @UI.hidden: true  LocalLastChangedBy;
+  @UI.hidden: true  LocalLastChangedAt;
+}

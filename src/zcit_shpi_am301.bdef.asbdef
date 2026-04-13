@@ -1,0 +1,82 @@
+unmanaged implementation in class ZCIT_BSHP_AM301 unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZCIT_SHPI_AM301 alias Shipment
+  implementation in class ZCIT_BSHP_AM301 unique
+  draft table ZCIT_SHPD_AM301
+  lock master total etag LocalLastChangedAt
+  authorization master ( instance )
+  etag master LocalLastChangedAt
+{
+  create ( authorization : global );
+  update;
+  delete;
+
+  draft action Edit;
+  draft action Resume;
+  draft determine action Prepare;
+  draft action Activate optimized;
+  draft action Discard;
+
+action mark_in_transit;
+action mark_delivered;
+action cancel_shipment;
+
+  field ( mandatory : create ) ShipmentId;
+  field ( readonly  : update ) ShipmentId;
+  field ( readonly ) LocalLastChangedAt;
+
+  association _trackinglog { create; with draft; }
+
+  mapping for ZCIT_SHPT_AM301
+  {
+    ShipmentId       = shipmentid;
+    SenderName       = sendername;
+    ReceiverName     = receivername;
+    Origin           = origin;
+    Destination      = destination;
+    BookingDate      = bookingdate;
+    ExpectedDelivery = expecteddelivery;
+    CurrentLocation  = currentlocation;
+    Status           = status;
+    DeliveryTime     = deliverytime;
+    TimeUnit         = timeunit;
+    DelayFlag        = delayflag;
+    ProgressPct      = progresspct;
+    LocalCreatedBy   = local_created_by;
+    LocalCreatedAt   = local_created_at;
+    LocalLastChangedBy  = local_last_changed_by;
+    LocalLastChangedAt  = local_last_changed_at;
+  }
+}
+
+define behavior for ZCIT_TLGI_AM301 alias TrackingLog
+  implementation in class ZCIT_BTLG_AM301 unique
+  draft table ZCIT_TLGD_AM301
+  lock dependent by _shipmentHeader
+  authorization dependent by _shipmentHeader
+  etag master LocalLastChangedAt
+{
+  update;
+  delete;
+
+  field ( readonly : update, mandatory : create ) LogSequence;
+  field ( readonly ) ShipmentId;
+
+  association _shipmentHeader { with draft; }
+
+  mapping for ZCIT_TLGT_AM301
+  {
+    ShipmentId   = shipmentid;
+    LogSequence  = logsequence;
+    LogTimestamp = logtimestamp;
+    LogLocation  = loglocation;
+    StatusUpdate = statusupdate;
+    Remarks      = remarks;
+    LocalCreatedBy  = local_created_by;
+    LocalCreatedAt  = local_created_at;
+    LocalLastChangedBy  = local_last_changed_by;
+    LocalLastChangedAt  = local_last_changed_at;
+  }
+}
